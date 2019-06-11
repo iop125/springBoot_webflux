@@ -6,9 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.TimeUnit;
 
-@WebServlet("/synServlet1")
+@WebServlet("/synServlet")
 public class SynchronizationServlet extends HttpServlet {
-
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         System.out.println("begin");

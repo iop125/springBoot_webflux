@@ -3,8 +3,8 @@ package springboot_webflux.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-
-@ServletComponentScan("springboot_webflux.demo.asynchronousServlet.*")
+import org.springframework.context.annotation.ComponentScan;
+@ServletComponentScan(basePackages="springboot_webflux.demo.asynchronousServlet")
 @SpringBootApplication
 public class DemoApplication {
 
