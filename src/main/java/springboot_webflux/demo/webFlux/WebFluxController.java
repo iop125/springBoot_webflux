@@ -20,28 +20,29 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/webFlux")
 public class WebFluxController {
     @GetMapping("/test")
-    public String test() throws InterruptedException {
+    public String test() {
         log.info("test --kaishi");
         doSome();
-       log.info("test --jieshu");
+        log.info("test --jieshu");
         return "--test-";
     }
 
     /**
      * 异步处理dosome方法  可以增加吞吐量
+     *
      * @return
      * @throws InterruptedException
      */
     @GetMapping("/monoDemo")
-    public Mono<String> monoDemo()throws InterruptedException {
-       log.info("monoDemo --kaishi");
-        Mono<String>  mono = Mono.fromSupplier(()->doSome());
-       log.info("monoDemo --jieshu");
-
+    public Mono<String> monoDemo() throws InterruptedException {
+        log.info("monoDemo --kaishi");
+        //提供者可以理解为返回  是函数编程里面的东西  异步处理
+        Mono<String> mono = Mono.fromSupplier(() -> doSome());
+        log.info("monoDemo --jieshu");
         return mono;
     }
 
-    public String doSome()  {
+    public String doSome() {
         try {
             TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
@@ -49,29 +50,33 @@ public class WebFluxController {
         }
         return "--0-";
     }
-    public String doSome(String  s)  {
+
+    public String doSome(String s) {
 
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        log.info("monoDemo --jieshu3"+s);
+        log.info("monoDemo --jieshu3" + s);
         return "--0-";
     }
+
     /**
      * flux表示可以包含多个处理器
+     *
      * @return
      * @throws InterruptedException
      */
     @GetMapping("/fluxDemo")
     public Flux<String> fluxDemo() {
-
-        return Flux.just("1","2","3");
+        //Flux 表示可以包含0或多个元素的异步序列
+        return Flux.just("1", "2", "3");
     }
 
     /**
      * flux表示可以包含多个处理器
+     *
      * @return
      * @throws InterruptedException
      */
@@ -81,20 +86,26 @@ public class WebFluxController {
     }
 
     @GetMapping("/listFluxDemo")
-    public Flux<String> listFluxDemo(@RequestParam List<String> hobby) {
+    public Flux<String> listFluxDemo(@RequestParam String[] hobby) {
+        return Flux.fromArray(hobby);
+    }
+
+    @GetMapping("/listFluxStreamDemo")
+    public Flux<String> listFluxStreamDemo(@RequestParam List<String> hobby) {
         log.info("listFluxDemo --kaishi");
         //将list转换成stream 在将stream转换成
-        Flux flux =   Flux.fromStream(hobby.stream().map(i->doSome("time--"+i)));
+        Flux flux = Flux.fromStream(hobby.stream().map(i -> doSome("time--" + i)));
         log.info("listFluxDemo --jieshu");
         return flux;
     }
 
     /**
      * sse 服务端推送事件
+     *
      * @param hobby
      * @return
      */
-    @GetMapping(value="/sseDemo",produces = "text/event-stream")
+    @GetMapping(value = "/sseDemo", produces = "text/event-stream")
     public Flux<String> sseDemo(@RequestParam String[] hobby) {
         return Flux.fromArray(hobby);
     }
