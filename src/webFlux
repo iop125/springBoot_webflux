@@ -11,3 +11,17 @@ Flux 表示可以包含0或多个元素的异步序列
 
 
 异步serlet
+AsynchronousServlet
+    步骤：
+    1。在启动类上面加载 @ServletComponentScan和@EnableAsync注解
+    2。倒入jar包
+    3。extends HttpServlet
+    4。asyncSupported = true
+    5。获取异步上下文，开启异步操作
+    6。设置异步时间
+    7。获取非阻塞的异步请求和响应
+    8。 CompletableFuture.runAsync(() -> doSome(asyncContext, servletRequest, servletResponse));执行
+
+同步servlet
+SynchronizationServlet
+
