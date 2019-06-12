@@ -52,7 +52,7 @@ id 记录到 HTTP 头 的 Last Event ID 属性中 。如果 浏览器与服务 �
 的事件标识 id 来确定 将 继续连接 哪个事件
 
 EventSource 对象
-    对于服务端
+    页面对于服务端
     发送的带有事件的 响应，浏览器需要在 JavaScript 中使用 EventSource 对象
     进行处理。 EventSource 使用的是标准的事件监听器方式 （注意，这里的事件并不是响应中
     所带的事件，而是浏览器上所 发生的事件）。当相应的事件发生时， 只需 使 EventSource 对象
@@ -61,6 +61,10 @@ EventSource 对象
      open  当浏览器成功与服务端建立连接时触发    onopen()
      message 当收到服务端发送的事件时触发   onmessage()  addEventListener()
      error   当发生异常时触发   onerror()
+     例子
+     servlet SSEServlet 页面：index.jsp
+
+
 
 
 异步serlet
