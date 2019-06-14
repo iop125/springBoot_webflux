@@ -140,4 +140,8 @@ Reactive Stream
     java提供了SubnissionPubisher 这个类作为发布者
 
 
+    发布订阅模式
+        SomeSubscriber（订阅者）   SubscriberTest（测试类）发布者在测试类里面创建的
+
+
 
