@@ -8,8 +8,14 @@ import java.util.concurrent.TimeUnit;
  * 订阅者
  */
 public class SomeSubscriber implements Flow.Subscriber {
+
+    private String name;
     //声明订阅令牌
     private Flow.Subscription subscription;
+
+    public SomeSubscriber(String name) {
+        this.name = name;
+    }
 
     //发布者第一次发布消息的时候会自动调用这个方法 会把令牌发送个订阅者
     @Override
@@ -23,7 +29,7 @@ public class SomeSubscriber implements Flow.Subscriber {
     //订阅者对数据的消费就这
     @Override
     public void onNext(Object item) {
-        System.out.println("当前订阅者的消息：" + item);
+        System.out.println(name+"当前订阅者的消息：" + item);
         try {
             TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
@@ -42,7 +48,7 @@ public class SomeSubscriber implements Flow.Subscriber {
     //当订阅过程中出现异常时会自动调用
     @Override
     public void onError(Throwable throwable) {
-        System.out.println("当前订阅者的消息异常：" + throwable);
+        System.out.println(name+"当前订阅者的消息异常：" + throwable);
         //取消订阅消息
         this.subscription.cancel();
 
@@ -51,7 +57,7 @@ public class SomeSubscriber implements Flow.Subscriber {
     //当令牌中的消息全部消费完成时会自动调用方法
     @Override
     public void onComplete() {
-        System.out.println("消息全部消费完成");
+        System.out.println(name+"消息全部消费完成");
 
     }
 }
