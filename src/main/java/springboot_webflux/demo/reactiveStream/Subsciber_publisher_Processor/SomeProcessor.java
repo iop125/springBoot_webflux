@@ -15,13 +15,10 @@ import java.util.concurrent.TimeUnit;
  * 过滤掉，并将小于 50 的 Integer 消息转换为 String 后发布 给订阅者。
  */
 public class SomeProcessor extends SubmissionPublisher<String> implements Flow.Processor<Integer,String> {
-    private String name;
     //声明订阅令牌
     private Flow.Subscription subscription;
 
-    public SomeProcessor(String name) {
-        this.name = name;
-    }
+
 
     //发布者第一次发布消息的时候会自动调用这个方法 会把令牌发送个订阅者
     @Override
@@ -42,10 +39,18 @@ public class SomeProcessor extends SubmissionPublisher<String> implements Flow.P
      */
     @Override
     public void onNext(Integer item) {
-        System.out.println(name+"-当前订阅者的消息：" + item);
+        System.out.println("处理者的消息：" + item);
        if(item<50){
+           try {
+               TimeUnit.SECONDS.sleep(1);
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
          this.submit("该消息处理："+item);
+       }else{
+           this.submit(""+item);
        }
+
         this.subscription.request(8);
 
 
@@ -54,7 +59,7 @@ public class SomeProcessor extends SubmissionPublisher<String> implements Flow.P
     //当订阅过程中出现异常时会自动调用
     @Override
     public void onError(Throwable throwable) {
-        System.out.println(name+"当前订阅者的消息异常：" + throwable);
+        System.out.println("处理者的消息异常：" + throwable);
         //取消订阅消息
         this.subscription.cancel();
 
@@ -63,7 +68,7 @@ public class SomeProcessor extends SubmissionPublisher<String> implements Flow.P
     //当令牌中的消息全部消费处理完成时会自动调用方法
     @Override
     public void onComplete() {
-        System.out.println(name+"消息全部处理完成");
+        System.out.println("处理者消息全部处理完成");
 
     }
 }
