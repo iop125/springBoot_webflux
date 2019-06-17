@@ -19,9 +19,11 @@ public class SubscriberTest {
         publisher.subscribe(subscriber1);
 //        publisher.subscribe(subscriber2);
         //生产10条消息发布
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 300; i++) {
             //submit() shiyige block方法 当发布过系统默认数量的消息后该方法阻塞。没有无限的缓冲区 内存大小限制
             // 这样就通过订阅者控制了发布者的发布速度，背压在这里体现
+            System.out.println("test：" + i);
+
             publisher.submit(new Random().nextInt(100));
         }
         //一定要关闭  finally中
