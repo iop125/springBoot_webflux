@@ -4,8 +4,8 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-@Data
 //@Document
+@Data
 public class Student implements Serializable {
     //    @Id
     String id;
@@ -19,5 +19,14 @@ public class Student implements Serializable {
     }
 
     public Student() {
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

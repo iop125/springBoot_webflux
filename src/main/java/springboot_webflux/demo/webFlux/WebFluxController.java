@@ -120,6 +120,6 @@ public class WebFluxController {
     @GetMapping("/fluxDemo1")
     public Flux<Student> fluxDemo1() {
         //Flux 表示可以包含0或多个元素的异步序列
-        return Flux.just(new Student("11", "是1么", 1), new Student("22", "是2么", 2));
+        return Flux.just(new Student("11", "是1么", 1));
     }
 }
