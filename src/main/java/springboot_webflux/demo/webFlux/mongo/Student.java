@@ -1,12 +1,23 @@
 package springboot_webflux.demo.webFlux.mongo;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Data;
 
-@Document
-public class Student {
-    @Id
+import java.io.Serializable;
+
+@Data
+//@Document
+public class Student implements Serializable {
+    //    @Id
     String id;
     String name;
     int age;
+
+    public Student(String id, String name, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
+
+    public Student() {
+    }
 }

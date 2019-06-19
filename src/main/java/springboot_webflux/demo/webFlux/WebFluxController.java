@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import springboot_webflux.demo.webFlux.mongo.Student;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -108,5 +109,17 @@ public class WebFluxController {
     @GetMapping(value = "/sseDemo", produces = "text/event-stream")
     public Flux<String> sseDemo(@RequestParam String[] hobby) {
         return Flux.fromArray(hobby);
+    }
+
+    /**
+     * flux表示可以包含多个处理器
+     *
+     * @return
+     * @throws InterruptedException
+     */
+    @GetMapping("/fluxDemo1")
+    public Flux<Student> fluxDemo1() {
+        //Flux 表示可以包含0或多个元素的异步序列
+        return Flux.just(new Student("11", "是1么", 1), new Student("22", "是2么", 2));
     }
 }

@@ -1,14 +1,12 @@
 package springboot_webflux.demo.webFlux;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import springboot_webflux.demo.webFlux.mongo.Student;
-import springboot_webflux.demo.webFlux.repository.StudentRepository;
 
 import javax.annotation.Resource;
 
@@ -21,50 +19,66 @@ import javax.annotation.Resource;
 @RequestMapping("/student")
 public class WebFluxMongoController {
 
-    @Resource
-    private StudentRepository studentRepository;
+//    @Resource
+//    private StudentRepository studentRepository;
 
     //以数组形式一次性返回数据
-    @GetMapping("/test")
+    @GetMapping("/getAll")
     public Flux<Student> getAll() {
 
-        return studentRepository.findAll();
+
+//        return studentRepository.findAll();
+        return Flux.just(new Student("11", "是1么", 1), new Student("22", "是2么", 2));
     }
 
     //以sse形式实时返回数据
     @GetMapping(value = "/sse/all", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Student> getAllSSE() {
-        return studentRepository.findAll();
+//        return studentRepository.findAll();
+        return Flux.just(new Student("11", "是1么", 1), new Student("22", "是2么", 2));
+
     }
 
     @PostMapping("/save")
     public Mono<Student> save(@RequestBody Student student) {
-
-        return studentRepository.save(student);
+        Mono<Student> mono = Mono.fromSupplier(() ->
+                new Student("23", "是么", 22)
+        );
+//        return studentRepository.save(student);
+        return mono;
     }
 
-    @PostMapping("/saveForm")
+    @PostMapping(value = "/saveForm", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Mono<Student> saveForm(Student student) {
-        return studentRepository.save(student);
+        Mono<Student> mono = Mono.fromSupplier(() ->
+                student
+        );
+        return mono;
+//        return studentRepository.save(student);
     }
 
     /**
      * 无状态删除
+     *
      * @param id
-     * @return  删除是否成功状态都是200  没有错误标示
+     * @return 删除是否成功状态都是200  没有错误标示
      */
     @DeleteMapping("/del/{id}")
-    public Mono<Void> delById(@PathVariable("id") String id ) {
-        return studentRepository.deleteById(id);
+    public Mono<Void> delById(@PathVariable("id") String id) {
+//        return studentRepository.deleteById(id);
+//        Mono<Void> mono = (Mono<Void>) Mono.fromSupplier(
+//
+//        );
+        return null;
     }
 
+
     /**
-     *
      * @param id
      * @return
      */
-    @DeleteMapping("/del/{id}")
-    public Mono<ResponseEntity<Void>> delByIdStatus(@PathVariable("id") String id ) {
+    @DeleteMapping("/delByIdStatus/{id}")
+    public Mono<ResponseEntity<Void>> delByIdStatus(@PathVariable("id") String id) {
 //        编写该处理器的
 //        思路 是 ：首先根据 id 对该对象进行查询，若存在则先将该查询结果删
 //        除，然后再将其映射为状态码 200 ；若不存在，则将查询结果映射为状态码 404 。
@@ -78,9 +92,10 @@ public class WebFluxMongoController {
 //        在 Mono 的访求中， 对于没有返回值的方法，若想为其添加返回值，则可链式调用 then()
 //        方法，由then()then()方法返回想返回的值。，
 //        由于SpringSpring--DataData--JPAJPA的的delete()delete()方法没方法没有返回值，所以这里使用有返回值，所以这里使用then()then()为其添加返回值。为其添加返回值。
-        return studentRepository.findById(id)
-                .flatMap(student -> studentRepository.delete(student))
-                .then(Mono.just(new ResponseEntity<Void>(HttpStatus.OK)))
-                .defaultIfEmpty(new ResponseEntity<Void>(HttpStatus.NOT_FOUND));
+//        return studentRepository.findById(id)
+//                .flatMap(student -> studentRepository.delete(student))
+//                .then(Mono.just(new ResponseEntity<Void>(HttpStatus.OK)))
+//                .defaultIfEmpty(new ResponseEntity<Void>(HttpStatus.NOT_FOUND));
+        return null;
     }
 }
