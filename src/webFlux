@@ -144,4 +144,5 @@ Reactive Stream
         SomeSubscriber（订阅者）   SubscriberTest（测试类）发布者在测试类里面创建的
 
 
-
+注意：
+要是加载了web jar  优先加载web的jar 不走webflux
